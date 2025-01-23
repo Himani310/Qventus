@@ -13,27 +13,21 @@ const { test, expect } = require('@playwright/test');
    -Add a timeout of 2 mins for your test or global config. 
 */
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 
 test('Verify to check Login functinality', async ({ browser }) => {
 
-    //test.setTimeout(120000);
+
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://qa-app-01.qventus.com');
     console.log(await page.title());
     await page.locator("[name='username']").fill("BadUser");
-    //await sleep(3000);
+    await page.waitForTimeout(2000);
     await page.locator("[name='password']").fill("BadPassword");
-    //await sleep(3000);
+    await page.waitForTimeout(2000);
     await page.locator("[type='submit']").click();
-    //console.log(await page.locator("[style*='color: red']").textContent());
-    //await expect(locator).toContainText('substring');
     await expect(page.locator("[style*='color: red']")).toContainText('Invalid username and/or password!');
-    await sleep(5000);
-    //test.setTimeout(120000);
+    await page.waitForTimeout(2000);
+
 
 });
